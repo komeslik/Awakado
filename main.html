@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <title>Awak-a-do</title>
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/particle-api-js/5/particle.min.js">
+  </script>
+</head>
+<style>
+</style>
+
+<body>
+  <header>
+    <h1>Awak-a-do</h1>
+  </header>
+  <nav>
+    <ul>
+      <div id="noUser" style="display:block">
+        <li><a href="javascript:show('login')">Login</a></li>
+        <li><a href="javascript:show('createUser')">Create User</a></li>
+        <li><a href="javascript:show('recoverPass')">Recover Password</a></li>
+      </div>
+      <div id="isUser" style="display:none">
+        <li><a href="javascript:logout()">Log Out</a></li>
+      </div>
+    </ul>
+  </nav>
+  <div class="container" id="login" style="display:block">
+    <article>
+      <h2>Login</h2>
+      <p>Username: <input type="text" name="user" id="user"></p>
+      <p>Password: <input type="password" name="password" id="password"></p>
+      <button onclick="login()">Log In</button>
+    </article>
+  </div>
+  <div class="container" id="createUser" style="display:none">
+    <article>
+      <h2>Create Account</h2>
+      <p>Email: <input type="text" name="email" id="email"></p>
+      <p>Username: <input type="text" name="un" id="un"></p>
+      <p>Password: <input type="password" name="pass" id="pass"></p>
+      <p>Repeat Password: <input type="password" name="pass2" id="pass2"></p>
+      <button onclick="addUser()">Create Account</button>
+    </article>
+  </div>
+  <div class="container" id="recoverPass" style="display:none">
+    <article>
+      <h2>Recover Password</h2>
+      <p>Username: <input type="text" name="recUser" id="recUser"></p>
+      <button onclick="recoverPass()">Submit</button>
+    </article>
+  </div>
+  <div class="container" id="controls" style="display:none">
+    <article>
+      <h2>Cycles</h2>
+      <input type="range" min="1" max="6" value="5" id="cycles">
+      <span id="range">5</span>
+      <h2>To-Do List</h2>
+      <span id="todo"></span>
+      <h2>Add a Task</h2>
+      <input type="text" id="newTodo">
+      <input type="time" id="todoTime">
+      <button onclick="addTodo()">Add</button>
+    </article>
+  </div>
+  <footer>Copyright DanK Entrprises</footer>
+  <script src="main.js"></script>
+</body>
+
+</html>

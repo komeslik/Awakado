@@ -1,0 +1,138 @@
+
+div.container {
+    width: 100%;
+    border: 1px solid gray;
+}
+header, footer {
+  padding: 1em;
+  color: white;
+  background-color: #296DC7;
+  text-align: center;
+}
+div.container {
+  background-color: #90B7E7;
+}
+nav {
+  float: left;
+  padding: 1em;
+}
+#timerIcon, #notIcon{
+  float: right;
+  max-width: 100px;
+}
+article {
+  margin-left: 150px;
+  border-left: 1px solid black;
+  padding: 1em;
+  overflow: hidden;
+}
+.col {
+    display: block;
+    float: left;
+    margin: 1% 0 1% 1.6%;
+}
+
+.col:first-child {
+    margin-left: 0;
+}
+
+
+.group:before,
+.group:after {
+    content: "";
+    display: table;
+}
+
+.group:after {
+    clear: both;
+}
+
+.span_2_of_2 {
+    width: 100%;
+}
+
+.span_1_of_2 {
+    width: 49.2%;
+}
+
+
+@media only screen and (max-width: 480px) {
+    .col {
+        margin: 1% 0 1% 0%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .span_2_of_2,
+    .span_1_of_2 {
+        width: 100%;
+    }
+}
+/* The switch - the box around the slider
+the switch design is based on w3schools tutorials:
+https://www.w3schools.com/howto/howto_css_switch.asp*/
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+/* Hide default HTML checkbox */
+
+.switch input {
+    display: none;
+}
+/* The slider */
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+img {
+    width: 100%;
+    max-width: 400px;
+}
