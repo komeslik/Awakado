@@ -116,6 +116,17 @@ function showTodo() {
 }
 
 function removeTodo(index) {
+  var todo = curUser.todo[index];
+  var publishEventPr = particle.publishEvent({ name: 'removeTodo', data: todo[0] + " at " + todo[1], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
+
+  publishEventPr.then(
+      function(data) {
+          if (data.body.ok) { console.log("Event published succesfully") }
+      },
+      function(err) {
+          console.log("Failed to publish event: " + err)
+      }
+  );
   curUser.todo.splice(index,1);
   showTodo();
 }

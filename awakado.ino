@@ -20,9 +20,9 @@ so make sure to add it via the Libraries tab in the left sidebar.
 #define OLED_RESET  D5
 Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
 const int button = D3;
-long lastReleased = 1;
+long lastReleased = 0;
 long lastPressed = 0;
-
+bool pressed = false;
 
 String busName = "Boston Daytime"; // name of your bus -- FILL THIS IN!
 int leadTime = 5; // #minutes you need to get to your bus -- FILL THIS IN!
@@ -77,7 +77,7 @@ void loop() {
   display.setCursor(x/2, 7);
   if(eventData!=""){
     display.print(eventData);
- 
+
   }else{
     display.print("WAKE UP!!");
     display.print("AWAK-A-DO");
@@ -89,16 +89,17 @@ void loop() {
 //   display.print(" min   ");
    display.display();
   if(--x < minX) x = display.width()*2;
-  
-if(isButtonPressed() && lastReleased>lastPressed){
-    lastPressed = millis();
-    delay(100);
-    if(isButtonPressed()){
-        Serial.println("press");
-        setAlarm();
-    }
+
+if(isButtonPressed() && millis()-lastReleased>100 && !pressed){
+    pressed = true;
+    Serial.println("press");
+    setAlarm();
 }
-  
+if(!isButtonPressed()){
+    pressed = false;
+    lastReleased - millis();
+}
+
 //   // give a "time to leave!" beeping warning, but only once per bus
 //   if(soonestBusTime <= leadTime && gaveWarning == false)
 //   {
@@ -129,7 +130,7 @@ void cycleCalc(const char *event, const char *data){
 
 void buzz(){
     Serial.println("buzz");
-    tone(D2, 5000, 1000);
+    tone(D2, 1000, 1000);
 }
 
 void setAlarm(){
