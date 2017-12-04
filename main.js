@@ -94,7 +94,7 @@ function addTodo() {
   var todoTime = document.getElementById("todoTime").value;
   var todo = new Array(newTodo, todoTime);
   curUser.todo.push(todo);
-  var publishEventPr = particle.publishEvent({ name: 'addTodo', data: todo[0] + " at " + todo[1], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
+  var publishEventPr = particle.publishEvent({ name: 'addTodo', data: todo[1] + ": " + todo[0], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
 
   publishEventPr.then(
       function(data) {
@@ -117,7 +117,7 @@ function showTodo() {
 
 function removeTodo(index) {
   var todo = curUser.todo[index];
-  var publishEventPr = particle.publishEvent({ name: 'removeTodo', data: todo[0] + " at " + todo[1], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
+  var publishEventPr = particle.publishEvent({ name: 'removeTodo', data: todo[1] + ": " + todo[0], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
 
   publishEventPr.then(
       function(data) {
