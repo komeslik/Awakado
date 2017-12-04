@@ -93,7 +93,16 @@ function addTodo() {
   var newTodo = document.getElementById("newTodo").value;
   var todoTime = document.getElementById("todoTime").value;
   var todo = new Array(newTodo, todoTime);
-  curUser.todo.push(todo);
+  var i;
+  for(var i = 0; i < curUser.todo.length; i++){
+    if(curUser.todo[i][1] > todoTime){
+      curUser.todo.splice(i, 0, todo);
+      break;
+    }
+  }
+  if(i === curUser.todo.length){
+    curUser.todo.push(todo);
+  }
   var publishEventPr = particle.publishEvent({ name: 'addTodo', data: todo[0] + " at " + todo[1], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
 
   publishEventPr.then(
