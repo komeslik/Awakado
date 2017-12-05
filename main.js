@@ -126,7 +126,7 @@ function showTodo() {
 
 function removeTodo(index) {
   var todo = curUser.todo[index];
-  var publishEventPr = particle.publishEvent({ name: 'removeTodo', data: todo[0] + " at " + todo[1], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
+  var publishEventPr = particle.publishEvent({ name: 'removeTodo', data: todo[1] + ": " + todo[0], auth: '3169a9b1af16f544b5684e856555ed68a66b7af4' });
 
   publishEventPr.then(
       function(data) {
