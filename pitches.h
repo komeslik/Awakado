@@ -1,5 +1,7 @@
 /*************************************************
  * Public Constants
+ * Source for this library:
+ * https://cdn.instructables.com/ORIG/F7X/K3AQ/IJEMOVHX/F7XK3AQIJEMOVHX.h
  *************************************************/
 
 #define NOTE_B0  31

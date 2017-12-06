@@ -35,10 +35,35 @@ bool buzzing = false;
 // create a software timer to get new prediction times every minute
 // Timer timer(60000, getBusTimes);
 Timer alarm(cycles * 1000, startAlarm, true);
-Timer buzzTimer(100, buzz, false);
+Timer buzzTimer(10, buzz, false);
 
 int melody[] = {
-  NOTE_C6, 0, NOTE_D6, 0, NOTE_E6, 0, NOTE_F6, 0, NOTE_G6, 0, NOTE_A6, 0, NOTE_B6, 0, NOTE_C7, 0
+  NOTE_C7, NOTE_C7, NOTE_C7, NOTE_C7,
+  0, NOTE_B6, NOTE_B6, NOTE_B6,
+  NOTE_B6, 0, NOTE_A6, NOTE_A6,
+  NOTE_A6, 0, NOTE_E6, NOTE_E6,
+  NOTE_E6, 0, NOTE_E6, 0, 
+  NOTE_E6, 0, NOTE_E6, 0, 
+  NOTE_E6, 0, NOTE_A6, 0,
+  NOTE_A6, 0, NOTE_A6,0, 
+  NOTE_A6,0, NOTE_A6, NOTE_A6,
+  0, NOTE_G6, 0, NOTE_A6,
+  NOTE_A6, 0, NOTE_F6,NOTE_F6,
+  0,NOTE_F6, 0,NOTE_F6, 
+  0, NOTE_F6, 0,NOTE_F6,
+  0, NOTE_A6, 0,  NOTE_A6,
+  0, NOTE_A6,0,NOTE_A6,
+  0,   NOTE_A6, NOTE_A6,  0,
+  NOTE_B6, 0, NOTE_C7, NOTE_C7,
+  0, NOTE_G6,NOTE_G6,0,
+  NOTE_G6,0,NOTE_G6,0,
+  NOTE_G6,0,NOTE_G6,0,
+  NOTE_C7,0,NOTE_C7,0,
+  NOTE_C7,0,NOTE_C7,0,
+  NOTE_C7, NOTE_C7, 0, NOTE_D7,
+  0, NOTE_D7, NOTE_D7, 0,
+  NOTE_B6,NOTE_B6, NOTE_B6,0
+  
 };
 
 int thisNote = 0;
@@ -136,9 +161,9 @@ void cycleCalc(const char *event, const char *data) {
 
 void buzz() {
   Serial.println("buzz");
-  tone(piezo, melody[thisNote / 10], 100);
+  tone(piezo, melody[thisNote / 10], 10);
   ++thisNote;
-  thisNote = thisNote % 160;
+  thisNote = thisNote %1000;
 }
 
 void setAlarm() {
