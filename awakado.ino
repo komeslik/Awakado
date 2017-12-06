@@ -14,7 +14,9 @@ using namespace std;
 #define OLED_DC     D6
 #define OLED_CS     D4
 #define OLED_RESET  D5
+
 Adafruit_SSD1306 display(OLED_DC, OLED_RESET, OLED_CS);
+
 const int button = D3;
 const int snoozeButton = D7;
 const int piezo = D2;
@@ -24,18 +26,17 @@ bool pressed = false;
 long snoozeLastReleased = 0;
 bool snoozePressed = false;
 
+int cacheIndex = 0;
+
 int  x, minX; // variables for scrolling code
 int cycles = 5;
+int prevCycles = 5;
 bool buzzing = false;
-// void getBusTimes() {
-//     // publish the event that will trigger our Webhook
-//     Particle.publish("get_nextbus");
-// }
 
-// create a software timer to get new prediction times every minute
-// Timer timer(60000, getBusTimes);
 Timer alarm(cycles * 1000, startAlarm, true);
 Timer buzzTimer(10, buzz, false);
+Timer todoCacheTimer(300, sendCache, false);
+
 
 int melody[] = {
   NOTE_C7, NOTE_C7, NOTE_C7, NOTE_C7,
@@ -79,6 +80,7 @@ void setup() {
   Particle.subscribe("addTodo", printEvent);
   Particle.subscribe("cycles", cycleCalc);
   Particle.subscribe("removeTodo", removeTodo);
+  Particle.subscribe("websiteOn", onWebsiteOn);
 
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   display.begin(SSD1306_SWITCHCAPVCC);
@@ -156,7 +158,23 @@ void printEvent(const char *event, const char *data) {
 void cycleCalc(const char *event, const char *data) {
   Serial.print(data);
   cycles = atoi(data);
+  prevCycles = cycles;
   Serial.println(cycles);
+}
+
+void onWebsiteOn(const char *event, const char *data) {
+    todoCacheTimer.start();
+}
+
+void sendCache(){
+    if(cacheIndex >= todos.size()){
+        cacheIndex = 0;
+        todoCacheTimer.stop();
+    }else{
+        Serial.println("Sending for cache: " + todos.at(cacheIndex) );
+        Particle.publish("todoCache", todos.at(cacheIndex));
+        ++cacheIndex;
+    }
 }
 
 void buzz() {
@@ -183,16 +201,25 @@ void setCycles() {
       Serial.print(Time.hour());
       Serial.print(":");
       Serial.println(Time.minute());
-      int secondsUntilFirstEvent = (h - Time.hour()) * 3600 - (m - Time.minute()) * 60;
-      if (secondsUntilFirstEvent < 0) {
-        secondsUntilFirstEvent += 24 * 3600;
+      
+      int deltaHour = h - Time.hour();
+      if(deltaHour<0){
+          deltaHour = deltaHour + 24;
       }
+      
+      int deltaMinute = m - Time.minute();
+      if(deltaMinute<0){
+          deltaMinute += deltaMinute + 24;
+      }
+      
+      int secondsUntilFirstEvent = deltaHour * 3600 + deltaMinute * 60;
       if (secondsUntilFirstEvent < cycles * 90 * 60) {
         cycles = secondsUntilFirstEvent / (90 * 60);
+        Serial.println(cycles);
       }
     }
   }
-
+  Serial.println(cycles);
   alarm.changePeriod(cycles * 1000);
 }
 
@@ -214,7 +241,9 @@ void removeTodo(const char *event, const char *data) {
     Serial.println(*viter);
   }
   x = display.width(); // set scrolling frame to display width
-
+    if(todos.empty()){
+        cycles = prevCycles;
+    }
 }
 
 /**
