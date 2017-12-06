@@ -194,14 +194,34 @@ function onDeviceReady() {
   });
 }
 
+function onPhotonLoad(){
+  console.log("Photon load");
+  for(i=0; i<todo.length; i++){
+    var publishEventPr = particle.publishEvent({
+      name: 'addTodo',
+      data: todo[i][0] + ": " + todo[i][1],
+      auth: '3169a9b1af16f544b5684e856555ed68a66b7af4'
+    });
+
+    publishEventPr.then(
+      function(data) {
+        if (data.body.ok) {
+          console.log("Event published succesfully")
+        }
+      },
+      function(err) {
+        console.log("Failed to publish event: " + err)
+      }
+    );
+  }
+}
+
 document.getElementById("cycles").addEventListener("change", showCycles, false);
 document.addEventListener('deviceready', onDeviceReady, false);
-onDeviceReady();
-/*particle.getEventStream({
-  deviceId: 'mine',
+particle.getEventStream({
+  deviceId: '4e0055001951363036373538',
   auth: '3169a9b1af16f544b5684e856555ed68a66b7af4'
 }).then(function(stream) {
-  stream.on('myClockState', function(data) {
-    console.log("Event: ", data);
-  });
-});*/
+  stream.on('spark/device/diagnostics/update', onPhotonLoad);
+});
+onDeviceReady();
